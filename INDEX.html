@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0072ad">
+<title>NCC – Warranty Claim Status</title>
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f3f8fc;--card:#fff;--ink:#14263a;--muted:#5a6b7c;--line:#d5e3ef;--sky:#039feb;--blue:#0072ad;--navy:#005a8c;--soft:#eaf5fc;--late:#c62828;--late-soft:#fdecea;--ok:#1b7a43;--ok-soft:#e6f4ec;--warn:#8a5a00;--warn-soft:#fdf1d8;--grad:var(--blue);--sans:"Public Sans","Noto Sans Sinhala",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.5 var(--sans);padding-bottom:env(safe-area-inset-bottom,0px)}
+.num{font-variant-numeric:tabular-nums}
+button,input{font:inherit;color:inherit}
+.in{max-width:760px;margin:0 auto}
+.top{background:#fff;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;border-bottom:4px solid var(--blue)}
+.top .in{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{height:54px;width:auto;display:block}
+.hd{display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+.ttl{font-weight:700;font-size:15px;color:var(--navy);text-align:right;line-height:1.25;text-transform:uppercase;letter-spacing:.03em}
+.tools{display:flex;align-items:center;gap:8px}
+.ver{font-size:11.5px;font-weight:700;color:var(--blue);background:var(--soft);border:1px solid var(--line);border-radius:99px;padding:2px 9px;white-space:nowrap}
+.lang{display:inline-flex;border:1.5px solid var(--blue);border-radius:99px;overflow:hidden}
+.lang button{border:0;background:#fff;color:var(--blue);font-weight:700;font-size:13px;padding:5px 12px;cursor:pointer;min-height:32px}
+.lang button[aria-pressed=true]{background:var(--blue);color:#fff}
+.lang button:focus-visible{outline:3px solid #ffd54a;outline-offset:-3px}
+html[lang=si] .sec,html[lang=si] .ttl{letter-spacing:0}
+.bar{background:var(--grad);padding:14px 16px 16px;color:#fff}
+.search{display:grid;grid-template-columns:1fr;gap:8px}
+.search input{min-width:0;height:48px;border-radius:10px;border:2px solid transparent;background:#fff;color:#0b1f33;padding:0 14px;font-size:18px;font-weight:600;letter-spacing:.02em}
+.search input::placeholder{font-weight:400;letter-spacing:0;color:#6b7b8b;font-size:15px}
+.search input:focus-visible,.btns button:focus-visible{outline:3px solid #ffd54a;outline-offset:1px}
+@media (min-width:560px){.search{grid-template-columns:1fr 1fr}.btns{grid-column:1/-1}}
+.btns{display:flex;gap:8px}
+.btns button{height:48px;border-radius:10px;border:2px solid #fff;font-weight:700;cursor:pointer;flex:1;background:#fff;color:var(--navy)}
+.btns #go{flex:2;background:var(--navy);color:#fff}
+.btns button:disabled{opacity:.55;cursor:default}
+main{max-width:760px;margin:0 auto;padding:16px 16px 40px}
+.msg{padding:24px 8px;text-align:center;color:var(--muted)}
+.msg b{color:var(--ink);display:block;font-size:17px;margin-bottom:4px}
+.msg img{width:72px;height:72px;display:block;margin:0 auto 10px}
+.msg.err{background:var(--late-soft);color:var(--late);border-radius:12px;padding:16px;text-align:left}
+.msg.err b{color:var(--late)}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:16px}
+.sheet:first-child{margin-top:0}
+.sec{background:var(--grad);color:#fff;font-weight:800;font-size:14px;letter-spacing:.05em;text-transform:uppercase;padding:11px 14px}
+.sec.late{background:var(--late)}
+.kv{display:grid;grid-template-columns:minmax(130px,42%) 1fr;border-top:1px solid var(--line)}
+.sec+.kv{border-top:0}
+.kv .k{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--soft);border-right:1px solid var(--line)}
+.kv .v{padding:9px 14px;font-weight:600;overflow-wrap:anywhere}
+.kv .v.red{color:var(--late)}
+.kv.name .v{font-size:18px;color:var(--navy)}
+.sub{font-weight:400;font-size:12.5px;color:var(--muted);display:block}
+.sub.in-line{display:inline}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px;white-space:nowrap}
+.tag.late{background:var(--late-soft);color:var(--late)}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+.tag.info{background:var(--soft);color:var(--navy)}
+.tag.none{color:var(--muted);font-weight:500;padding:0}
+.note{padding:12px 14px;font-size:14px;background:var(--warn-soft);color:var(--warn)}
+.info-note{padding:12px 14px;font-size:13.5px;color:var(--muted);border-top:1px solid var(--line)}
+/* allocated officer */
+.officer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px;background:var(--soft);border-left:6px solid var(--blue);border-bottom:1px solid var(--line)}
+.officer .lbl{font-size:13.5px;color:var(--muted);font-weight:500}
+.officer .code{font-size:26px;font-weight:700;color:var(--navy);letter-spacing:.06em;text-align:right}
+.officer .code.pending{font-size:15px;letter-spacing:0;font-weight:600;color:var(--warn)}
+/* progress steps */
+.steps{list-style:none;margin:0;padding:14px 14px 4px}
+.steps li{position:relative;padding:0 0 16px 34px;color:var(--muted);min-height:34px}
+.steps li::before{content:"";position:absolute;left:8px;top:20px;bottom:-1px;width:2px;background:var(--line)}
+.steps li:last-child::before{display:none}
+.steps li.done::before{background:var(--blue)}
+.steps .dot{position:absolute;left:0;top:1px;width:18px;height:18px;border-radius:50%;border:2px solid var(--line);background:#fff}
+.steps li.done .dot{background:var(--blue);border-color:var(--blue)}
+.steps li.done .dot::after{content:"";position:absolute;left:5px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.steps li.now .dot{border-color:var(--blue);box-shadow:0 0 0 4px var(--soft);background:#fff}
+.steps li.now .dot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--blue)}
+.steps li.done,.steps li.now{color:var(--ink)}
+.steps li.now .st{font-weight:700;color:var(--navy)}
+.steps .st{display:block;font-weight:500}
+.steps li.done .st{font-weight:600}
+.steps .sd{display:block;font-size:12.5px;color:var(--muted);font-weight:400}
+footer{margin-top:20px;font-size:12px;color:var(--muted);text-align:center}
+footer button,footer a{background:none;border:0;color:var(--blue);font-weight:600;cursor:pointer;padding:8px 10px;text-decoration:underline;font-size:12px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:99px;font-weight:600;font-size:14px;z-index:9}
+[hidden]{display:none!important}
+@media (max-width:380px){.kv{grid-template-columns:1fr}.kv .k{border-right:0;padding-bottom:2px}.kv .v{padding-top:2px}.logo{height:44px}.lang button{padding:5px 10px}.officer .code{font-size:22px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><img class="logo" src="logo.png" alt="NCC – The Smart Choice">
+  <div class="hd">
+    <div class="ttl" id="ttl"></div>
+    <div class="tools">
+      <span class="ver" id="ver"></span>
+      <div class="lang" role="group" aria-label="Language / භාෂාව">
+        <button type="button" data-lang="en" aria-pressed="true">English</button>
+        <button type="button" data-lang="si" aria-pressed="false" lang="si">සිංහල</button>
+      </div>
+    </div>
+  </div></div></header>
+<section class="bar"><div class="in">
+  <form class="search" id="form" autocomplete="off">
+    <input id="wms" type="text" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="next" required>
+    <input id="mobile" type="tel" inputmode="tel" enterkeyhint="search" required>
+    <div class="btns">
+      <button id="go" type="submit"></button>
+      <button type="button" id="share" disabled></button>
+    </div>
+  </form>
+</div></section>
+<main id="out" aria-live="polite"></main>
+<div id="toast" role="status" hidden></div>
+
+<script>
+/* ============ SETTINGS ============
+   Same Google Sheet as the payment summary page. It must be shared: Anyone with the link - Viewer.
+   The warranty claims are read from the tab named in TABS.war.
+   WAR_GID (optional): the gid number of that tab (from the sheet URL, ...#gid=123456) - read first if given. */
+const CONFIG = {
+  VERSION: "1.0.0",
+  SHEET_ID: "1cDnCh7GDPdpcXUDH7GsY9TSF5hRFDl7G6nRxdW0qIXY",
+  WAR_GID: "",
+  TABS: { war: "MPL-Warranty & Repair" },
+  PUBLISHED: { war: "" },
+  PAYMENT_PAGE: "index.html",
+  /* months from invoice date: [full (hardware) warranty, service warranty]. null = no warranty  (same as the payment page) */
+  WARRANTY: { STANDARD:[3,6], SUPER:[3,6], VALUE:[1,3], BUDGET:null },
+  /* progress steps, in order. A TCS STATUS value moves the claim to its step; blank = step 1 */
+  STEP_OF: { "": 0, "ACCEPTED": 1, "IN PROGRESS": 2, "COMPLETED": 3, "ISSUED": 4 }
+};
+
+/* Column positions (A = 0) used only when a header name is not found. The page looks columns up by header name first. */
+const DEF = { code:1, ref:2, category:3, invDate:4, phone:5, whatsapp:6, received:7, notified:8, issue:10, wms:12,
+  warranty:13, payment:14, tcs:15, officer:16, remarks:17, updated:18, charges:19 };
+let F = {...DEF};
+const norm = x => String(x ?? "").replace(/\s+/g, " ").trim().toLowerCase();
+function mapWar(rows){
+  let hr = -1;
+  for (let i = 0; i < Math.min(rows.length, 12) && hr < 0; i++) if (rows[i].some(c => /^wms\s*ref/.test(norm(c)))) hr = i;
+  const m = {...DEF}; if (hr < 0) return m;
+  const spec = { code:/^code$/, ref:/^ncc ref/, category:/^category$/, invDate:/^invoice date$/, phone:/^phone/, whatsapp:/^whatsapp/,
+    received:/^received date$/, notified:/^notification date$/, issue:/^complaint \/ issue$/, wms:/^wms\s*ref/, warranty:/^waran?ty status$/,
+    payment:/^payment status$/, tcs:/^tcs status$/, officer:/^tcs code$/, remarks:/^tcs remarks$/, updated:/^date$/, charges:/^charges/ };
+  for (const [f, re] of Object.entries(spec)){ const c = rows[hr].findIndex(x => re.test(norm(x))); if (c > -1) m[f] = c; }
+  return m;
+}
+
+/* ============ LANGUAGE ============ */
+const SI_MON = ["ජන","පෙබ","මාර්","අප්‍රේ","මැයි","ජූනි","ජූලි","අගෝ","සැප්","ඔක්","නොවැ","දෙසැ"];
+const I18N = {
+ en:{
+  docTitle:"NCC – Warranty Claim Status", title:"WARRANTY CLAIM<br>STATUS", version:"Version",
+  phWms:"WMS No. (e.g. WMS1013)", phMob:"Mobile or WhatsApp number (e.g. 077 123 4567)", lblWms:"WMS No.", lblMob:"Mobile or WhatsApp number",
+  search:"Search", loading:"Loading…", share:"Share link",
+  startH:"Enter your WMS number and mobile number", startP:"Your warranty claim status will appear here. You can use your normal mobile number or your WhatsApp number.",
+  bothH:"Enter both details", bothP:"Type the WMS number and a Sri Lankan mobile number: 9 digits, 10 digits starting with 0, or +94 format.",
+  noneH:"No matching warranty claim found", noneP:"The WMS number and the mobile number must belong to the same claim. Check both and try again, or contact NCC customer support.",
+  eAccessH:"Can't read the sheet", eAccessP:"The Google Sheet must be shared as “Anyone with the link – Viewer”, and the tab name in CONFIG must match exactly.",
+  eShapeH:"Sheet layout not recognised", eShapeP:"The warranty tab does not look as expected. Check CONFIG.TABS.war and that it has a “WMS REFERENCE” column.",
+  eNetH:"Couldn't reach Google Sheets", eNetP:"Check your internet connection and try again.",
+  eOtherH:"Something went wrong", eOtherP:"Please try again.",
+  wmsNo:"WMS No.", nccRef:"NCC Ref.",
+  progTitle:"REPAIR PROGRESS", officer:"Allocated officer code", notAllocated:"Not allocated yet",
+  steps:["Claim registered","Accepted by service team","Repair in progress","Repair completed","Handed over to customer"],
+  stepNote:"Current status", remarks:"Technician remarks", updated:"Last updated",
+  charges:"Repair charges (Rs.)", payStatus:"Payment status",
+  claimTitle:"CLAIM DETAILS", issue:"Issue reported", notified:"Complaint date", received:"Laptop received on",
+  covTitle:"WARRANTY COVERAGE", prod:"Product type & category", invDate:"Invoice date", covNow:"Warranty for this claim",
+  wFull:"Full warranty until", wSvc:"Service warranty until", expired:"expired", noWarranty:"No warranty", laptop:"Laptop", checking:"Being checked",
+  wFullTag:"Full warranty", wSvcTag:"Service warranty only", wNoTag:"Out of warranty",
+  wFullNote:"Parts and service are covered.", wSvcNote:"Service is covered. Parts may be charged.", wNoNote:"Repairs are chargeable.",
+  payTags:{"UP TO DATE":"Up to date","COMPLETED":"Completed","OUTSTANDING":"Outstanding"},
+  termsTitle:"WARRANTY TERMS",
+  terms:{
+   STD:["6-month warranty: 3 months comprehensive + 3 months service only.","Battery replacement applies only if backup falls below 1 hour within the first 3 months."],
+   VAL:["3-month warranty: 1 month comprehensive + 2 months service only.","Battery replacement does not apply to Value & Budget laptops."]},
+  termsCommon:["Warranty excludes damage due to misuse, negligence, power fluctuations, natural disasters, or accidents. Repairs outside warranty are chargeable.","Warranty is void if the sticker is removed or damaged."],
+  refresh:"Refresh from sheet", clear:"New search", payPage:"Payment summary", copied:"Link copied", copyPrompt:"Copy this link", rs:"Rs."
+ },
+ si:{
+  docTitle:"NCC – වගකීම් හිමිකම් තත්ත්වය", title:"වගකීම් හිමිකම්<br>තත්ත්වය", version:"අනුවාදය",
+  phWms:"WMS අංකය (උදා: WMS1013)", phMob:"ජංගම හෝ WhatsApp අංකය (උදා: 077 123 4567)", lblWms:"WMS අංකය", lblMob:"ජංගම හෝ WhatsApp අංකය",
+  search:"සොයන්න", loading:"පූරණය වෙමින්…", share:"සබැඳිය බෙදාගන්න",
+  startH:"ඔබේ WMS අංකය සහ ජංගම දුරකථන අංකය ඇතුළත් කරන්න", startP:"ඔබේ වගකීම් හිමිකම් තත්ත්වය මෙහි දිස්වේ. සාමාන්‍ය ජංගම අංකය හෝ WhatsApp අංකය භාවිතා කළ හැක.",
+  bothH:"විස්තර දෙකම ඇතුළත් කරන්න", bothP:"WMS අංකය සහ ශ්‍රී ලංකා ජංගම දුරකථන අංකයක් ඇතුළත් කරන්න: ඉලක්කම් 9ක්, 0 න් ආරම්භ වන ඉලක්කම් 10ක්, හෝ +94 ආකෘතියෙන්.",
+  noneH:"ගැළපෙන වගකීම් හිමිකමක් හමු නොවීය", noneP:"WMS අංකය සහ ජංගම දුරකථන අංකය යන දෙකම එකම හිමිකමකට අයත් විය යුතුය. දෙකම පරීක්ෂා කර නැවත උත්සාහ කරන්න, නැතහොත් NCC පාරිභෝගික සේවාව අමතන්න.",
+  eAccessH:"පත්‍රිකාව කියවිය නොහැක", eAccessP:"Google Sheet එක “සබැඳිය ඇති ඕනෑම අයෙකුට – නැරඹීමට” ලෙස බෙදාගත යුතු අතර, CONFIG හි ටැබ් නම නිවැරදිව ගැළපිය යුතුය.",
+  eShapeH:"පත්‍රිකා ව්‍යුහය හඳුනාගත නොහැක", eShapeP:"වගකීම් ටැබය අපේක්ෂිත පරිදි නොවේ. CONFIG.TABS.war පරීක්ෂා කර “WMS REFERENCE” තීරුවක් ඇති බව තහවුරු කරන්න.",
+  eNetH:"Google Sheets වෙත සම්බන්ධ විය නොහැකි විය", eNetP:"ඔබේ අන්තර්ජාල සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න.",
+  eOtherH:"යම් දෝෂයක් සිදු විය", eOtherP:"කරුණාකර නැවත උත්සාහ කරන්න.",
+  wmsNo:"WMS අංකය", nccRef:"NCC යොමුව",
+  progTitle:"අලුත්වැඩියා ප්‍රගතිය", officer:"පවරා ඇති නිලධාරී කේතය", notAllocated:"තවම පවරා නැත",
+  steps:["හිමිකම ලියාපදිංචි කර ඇත","සේවා කණ්ඩායම භාර ගෙන ඇත","අලුත්වැඩියාව සිදුවෙමින් පවතී","අලුත්වැඩියාව අවසන්","පාරිභෝගිකයා වෙත භාර දී ඇත"],
+  stepNote:"වත්මන් තත්ත්වය", remarks:"කාර්මික නිලධාරී සටහන්", updated:"අවසන් යාවත්කාලීන කළ දිනය",
+  charges:"අලුත්වැඩියා ගාස්තු (රු.)", payStatus:"ගෙවීම් තත්ත්වය",
+  claimTitle:"හිමිකම් විස්තර", issue:"වාර්තා කළ ගැටලුව", notified:"පැමිණිලි කළ දිනය", received:"ලැප්ටොප් ලැබුණු දිනය",
+  covTitle:"වගකීම් ආවරණය", prod:"නිෂ්පාදන වර්ගය සහ ප්‍රවර්ගය", invDate:"ඉන්වොයිස් දිනය", covNow:"මෙම හිමිකම සඳහා වගකීම",
+  wFull:"සම්පූර්ණ වගකීම අවසන් වන දිනය", wSvc:"සේවා වගකීම අවසන් වන දිනය", expired:"කල් ඉකුත් වී ඇත", noWarranty:"වගකීමක් නැත", laptop:"ලැප්ටොප්", checking:"පරීක්ෂා කරමින් පවතී",
+  wFullTag:"සම්පූර්ණ වගකීම", wSvcTag:"සේවා වගකීම පමණි", wNoTag:"වගකීම අවසන්",
+  wFullNote:"කොටස් සහ සේවාව ආවරණය වේ.", wSvcNote:"සේවාව ආවරණය වේ. කොටස් සඳහා ගාස්තු අය විය හැක.", wNoNote:"අලුත්වැඩියා සඳහා ගාස්තු අය කෙරේ.",
+  payTags:{"UP TO DATE":"යාවත්කාලීනයි","COMPLETED":"සම්පූර්ණයි","OUTSTANDING":"හිඟයි"},
+  termsTitle:"වගකීම් නියමයන්",
+  terms:{
+   STD:["මාස 6ක වගකීම: මාස 3ක් සම්පූර්ණ වගකීම + මාස 3ක් සේවා වගකීම පමණි.","බැටරි මාරුව අදාළ වන්නේ පළමු මාස 3 තුළ බැටරි ක්‍රියාකාරීත්වය පැය 1ට අඩු වුවහොත් පමණි."],
+   VAL:["මාස 3ක වගකීම: මාස 1ක් සම්පූර්ණ වගකීම + මාස 2ක් සේවා වගකීම පමණි.","Value සහ Budget ලැප්ටොප් සඳහා බැටරි මාරුව අදාළ නොවේ."]},
+  termsCommon:["වැරදි භාවිතය, නොසැලකිල්ල, විදුලි උච්චාවචනය, ස්වාභාවික විපත් හෝ අනතුරු නිසා සිදුවන හානි වගකීමට අයත් නොවේ. වගකීමෙන් පිටත අලුත්වැඩියා සඳහා ගාස්තු අය කෙරේ.","ස්ටිකරය ඉවත් කළහොත් හෝ හානි වුවහොත් වගකීම අවලංගු වේ."],
+  refresh:"පත්‍රිකාවෙන් යළි පූරණය කරන්න", clear:"නව සෙවුමක්", payPage:"ගෙවීම් සාරාංශය", copied:"සබැඳිය පිටපත් කරන ලදී", copyPrompt:"මෙම සබැඳිය පිටපත් කරන්න", rs:"රු."
+ }
+};
+let LANG = "en";
+try { const s = localStorage.getItem("ncc_lang"); if (s === "si" || s === "en") LANG = s; else if (/^si/i.test(navigator.language || "")) LANG = "si"; } catch(e){}
+const t = (k, ...a) => { const v = I18N[LANG][k] ?? I18N.en[k]; return typeof v === "function" ? v(...a) : v; };
+
+const $ = id => document.getElementById(id);
+const out = $("out"), wmsIn = $("wms"), mobIn = $("mobile"), btn = $("go"), shr = $("share");
+const clean = s => (s ?? "").toString().trim();
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const key = s => clean(s).replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+const toNum = s => { s = clean(s); if (!s) return null; const n = parseFloat(s.replace(/[^0-9.]/g, "")); return isNaN(n) ? null : n; };
+const fmt = n => n.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+
+/* WMS number: "wms 1013", "WMS-1013" and plain "1013" all match WMS1013 */
+const wmsKey = s => { const k = key(s); return /^\d+$/.test(k) ? "WMS" + k : k; };
+
+/* ---------- dates ---------- */
+const MON = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+function parseDate(s){
+  s = clean(s); if (!s) return null;
+  const mk = (y, m, d) => { if (y < 100) y += 2000; const dt = new Date(y, m, d);
+    return (dt.getFullYear() === y && dt.getMonth() === m && dt.getDate() === d) ? dt : null; };
+  let m;
+  if ((m = s.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/))) return mk(+m[1], +m[2]-1, +m[3]);
+  if ((m = s.match(/^(\d{1,2})[-/. ]([A-Za-z]{3})[a-z]*[-/. ,]*(\d{2,4})/)) && MON[m[2].toLowerCase()] != null)
+    return mk(+m[3], MON[m[2].toLowerCase()], +m[1]);
+  if ((m = s.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{2,4})\b/))){
+    const a = +m[1], b = +m[2], y = +m[3];
+    for (const [mo, d] of [[b,a],[a,b]]){ const dt = mk(y, mo-1, d); if (dt) return dt; }   /* day/month/year first */
+  }
+  return null;
+}
+const fmtDate = d => LANG === "si"
+  ? `${String(d.getDate()).padStart(2,"0")} ${SI_MON[d.getMonth()]} ${d.getFullYear()}`
+  : d.toLocaleDateString("en-GB", {day:"2-digit", month:"short", year:"numeric"});
+const showDate = s => { const d = parseDate(s); return d ? fmtDate(d) : clean(s); };
+const addMonths = (d, n) => { const x = new Date(d.getFullYear(), d.getMonth() + n, 1);
+  x.setDate(Math.min(d.getDate(), new Date(x.getFullYear(), x.getMonth() + 1, 0).getDate())); return x; };
+
+/* ---------- CSV ---------- */
+function parseCSV(text){
+  const rows = []; let row = [], f = "", q = false;
+  for (let i = 0; i < text.length; i++){
+    const ch = text[i];
+    if (q){ if (ch === '"'){ if (text[i+1] === '"'){ f += '"'; i++; } else q = false; } else f += ch; }
+    else if (ch === '"') q = true;
+    else if (ch === ",") { row.push(f); f = ""; }
+    else if (ch === "\n" || ch === "\r"){ if (ch === "\r" && text[i+1] === "\n") i++; row.push(f); rows.push(row); row = []; f = ""; }
+    else f += ch;
+  }
+  if (f !== "" || row.length){ row.push(f); rows.push(row); }
+  return rows;
+}
+async function fetchCsv(url){
+  const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 25000);
+  let res; try { res = await fetch(url, {cache:"no-store", signal:ctl.signal}); }
+  catch(e){ throw new Error("network"); } finally { clearTimeout(tm); }
+  const text = await res.text();
+  if (!res.ok || /^\s*</.test(text)) throw new Error("access");
+  return parseCSV(text);
+}
+const isWar = rows => rows.some(r => r.some(c => /^wms\s*ref/.test(norm(c))));
+async function getWar(){
+  if (CONFIG.PUBLISHED.war) return fetchCsv(CONFIG.PUBLISHED.war);
+  const id = encodeURIComponent(CONFIG.SHEET_ID), urls = [];
+  if (CONFIG.WAR_GID){
+    urls.push("https://docs.google.com/spreadsheets/d/" + id + "/export?format=csv&gid=" + encodeURIComponent(CONFIG.WAR_GID));
+    urls.push("https://docs.google.com/spreadsheets/d/" + id + "/gviz/tq?tqx=out:csv&headers=0&gid=" + encodeURIComponent(CONFIG.WAR_GID));
+  }
+  urls.push("https://docs.google.com/spreadsheets/d/" + id + "/gviz/tq?tqx=out:csv&headers=0&sheet=" + encodeURIComponent(CONFIG.TABS.war));
+  let err = new Error("shape");
+  for (const u of urls){
+    try { const rows = await fetchCsv(u); if (isWar(rows)) return rows; err = new Error("shape"); }
+    catch(e){ err = e; }
+  }
+  throw err;
+}
+
+let ROWS = null;
+async function load(force){
+  if (ROWS && !force) return;
+  const rows = await getWar();
+  F = mapWar(rows); ROWS = rows;
+}
+
+/* ---------- mobile numbers (same rules as the payment page) ---------- */
+const digits = v => clean(v).replace(/\D/g, "");
+function normalizeMobile(v){
+  let n = digits(v);
+  if (n.startsWith("94") && n.length === 11) n = n.slice(2);
+  if (n.length === 10 && n.startsWith("0")) n = n.slice(1);
+  return n.length === 9 ? n : "";
+}
+function mobileNumbers(v){
+  const text = String(v ?? ""), set = new Set();
+  const add = n => { n = normalizeMobile(n); if (n) set.add(n); };
+  const scan = d => { while (d.length >= 9){
+      const len = (d.startsWith("94") && d.length >= 11) ? 11 : (d[0] === "0" && d.length >= 10) ? 10 : 9;
+      add(d.slice(0, len)); d = d.slice(len); } };
+  text.split(/[\/,;|&\n\r]+|\s+(?:and|or)\s+|\s+[-–—]\s+|\s{2,}/i).forEach(p => { add(p); scan(digits(p)); });
+  const whole = normalizeMobile(text.replace(/,/g, "")); if (whole && !/[A-Za-z]/.test(text)) set.add(whole);
+  return [...set];
+}
+/* the customer's normal number OR WhatsApp number both work */
+const rowNumbers = r => new Set([...mobileNumbers(r[F.phone]), ...mobileNumbers(r[F.whatsapp])]);
+const find = (wms, mob) => { const a = wmsKey(wms), b = normalizeMobile(mob);
+  return (a && b && ROWS.find(r => wmsKey(r[F.wms]) === a && /^WMS\d+$/.test(a) && rowNumbers(r).has(b))) || null; };
+
+/* ---------- render ---------- */
+const kv = (k, v, cls="", row="") => `<div class="kv ${row}"><div class="k">${k}</div><div class="v num ${cls}">${v}</div></div>`;
+const money = n => t("rs") + " " + fmt(n);
+const titleCase = s => s.toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
+
+function warrantyDates(r){
+  const cat = clean(r[F.category]).toUpperCase(), inv = parseDate(r[F.invDate]);
+  const m = CONFIG.WARRANTY[cat];
+  if (!(cat in CONFIG.WARRANTY)) return {cat, full:null, svc:null, none:false, std:false};
+  if (!m) return {cat, full:null, svc:null, none:true, std:false};
+  return {cat, full: inv ? addMonths(inv, m[0]) : null, svc: inv ? addMonths(inv, m[1]) : null, none:false, std: m[0] === 3};
+}
+function dateWithExpiry(d){
+  if (!d) return "—";
+  const tdy = new Date(); tdy.setHours(0,0,0,0);
+  return esc(fmtDate(d)) + (d < tdy ? ` <span class="sub in-line">(${t("expired")})</span>` : "");
+}
+function stepIndex(r){
+  const s = clean(r[F.tcs]).toUpperCase().replace(/\s+/g, " ");
+  return s in CONFIG.STEP_OF ? CONFIG.STEP_OF[s] : 0;
+}
+function statusTag(i){
+  const label = t("steps")[i];
+  return `<span class="tag ${i >= 3 ? "ok" : i >= 1 ? "warn" : "info"}">${esc(label)}</span>`;
+}
+function warrantyTag(r){
+  const w = clean(r[F.warranty]).toUpperCase();
+  if (w.startsWith("FULL")) return `<span class="tag ok">${t("wFullTag")}</span><span class="sub">${t("wFullNote")}</span>`;
+  if (w.startsWith("SERVICE")) return `<span class="tag warn">${t("wSvcTag")}</span><span class="sub">${t("wSvcNote")}</span>`;
+  if (w.startsWith("NO")) return `<span class="tag late">${t("wNoTag")}</span><span class="sub">${t("wNoNote")}</span>`;
+  return `<span class="tag none">${t("checking")}</span>`;
+}
+function payTag(r){
+  const p = clean(r[F.payment]).toUpperCase().replace(/\s+/g, " ");
+  if (!p) return "";
+  const label = (I18N[LANG].payTags || {})[p] || titleCase(p);
+  const cls = p === "OUTSTANDING" ? "late" : p === "COMPLETED" || p === "UP TO DATE" ? "ok" : "warn";
+  return `<span class="tag ${cls}">${esc(label)}</span>`;
+}
+
+function render(r){
+  const g = i => clean(r[i]);
+  const idx = stepIndex(r), steps = t("steps");
+  const officer = g(F.officer).toUpperCase();
+  const wd = warrantyDates(r);
+  const issue = g(F.issue).replace(/https?:\/\/\S+/g, "").replace(/\s+/g, " ").trim();
+  const charges = toNum(g(F.charges)), remarks = g(F.remarks);
+  const upd = parseDate(g(F.updated));
+  const cat = wd.cat ? t("laptop") + " | " + esc(wd.cat) : t("laptop");
+
+  const head = `<div class="sheet">
+    ${kv(t("wmsNo"), esc(g(F.wms)), "", "name")}
+    ${g(F.ref) ? kv(t("nccRef"), esc(g(F.ref))) : ""}
+    ${kv(t("stepNote"), statusTag(idx))}
+  </div>`;
+
+  const list = steps.map((s, i) => {
+    const cls = i < idx || idx === 4 ? "done" : i === idx ? "now" : "";
+    return `<li class="${cls}"><span class="dot"></span><span class="st">${esc(s)}</span>${i === idx && upd && idx < 4 ? `<span class="sd">${t("updated")}: ${esc(fmtDate(upd))}</span>` : ""}${i === idx && idx === 4 && upd ? `<span class="sd">${esc(fmtDate(upd))}</span>` : ""}</li>`;
+  }).join("");
+  const prog = `<div class="sheet"><div class="sec">${t("progTitle")}</div>
+    <div class="officer"><span class="lbl">${t("officer")}</span>
+      ${officer ? `<span class="code num">${esc(officer)}</span>` : `<span class="code pending">${t("notAllocated")}</span>`}</div>
+    <ol class="steps">${list}</ol>
+    ${remarks ? kv(t("remarks"), esc(titleCase(remarks))) : ""}
+    ${charges > 0 ? kv(t("charges"), fmt(charges), "red") : ""}
+    ${g(F.payment) ? kv(t("payStatus"), payTag(r)) : ""}
+  </div>`;
+
+  const claim = `<div class="sheet"><div class="sec">${t("claimTitle")}</div>
+    ${issue ? kv(t("issue"), esc(issue)) : ""}
+    ${kv(t("notified"), g(F.notified) ? esc(showDate(g(F.notified))) : "—")}
+    ${g(F.received) ? kv(t("received"), esc(showDate(g(F.received)))) : ""}
+  </div>`;
+
+  const cov = `<div class="sheet"><div class="sec">${t("covTitle")}</div>
+    ${kv(t("prod"), cat.toUpperCase())}
+    ${kv(t("invDate"), g(F.invDate) ? esc(showDate(g(F.invDate))) : "—")}
+    ${kv(t("covNow"), warrantyTag(r))}
+    ${wd.none ? kv(t("wFull"), t("noWarranty")) + kv(t("wSvc"), t("noWarranty")) : kv(t("wFull"), dateWithExpiry(wd.full)) + kv(t("wSvc"), dateWithExpiry(wd.svc))}
+  </div>`;
+
+  let terms = "";
+  if (wd.cat in CONFIG.WARRANTY && !wd.none){
+    const set = I18N[LANG].terms[wd.std ? "STD" : "VAL"];
+    terms = `<div class="sheet"><div class="sec">${t("termsTitle")}</div>
+      <div class="info-note">${[...set, ...t("termsCommon")].map(x => `<p style="margin:0 0 6px">${esc(x)}</p>`).join("")}</div></div>`;
+  }
+
+  out.innerHTML = `${head}${prog}${claim}${cov}${terms}
+    <footer><button type="button" id="refresh">${t("refresh")}</button><button type="button" id="clear">${t("clear")}</button><a href="${esc(CONFIG.PAYMENT_PAGE)}">${t("payPage")}</a></footer>`;
+  shr.disabled = false;
+  $("refresh").onclick = () => search(wmsIn.value, mobIn.value, true);
+  $("clear").onclick = () => { history.replaceState(null, "", location.href.split("#")[0]); LAST = null; show(vStart); wmsIn.value = mobIn.value = ""; wmsIn.focus(); };
+}
+
+/* ---------- views (re-drawn when the language changes) ---------- */
+let VIEW = null, LAST = null;
+function lock(){ shr.disabled = true; }
+function show(fn){ VIEW = fn; fn(); }
+const vStart = () => { lock(); out.innerHTML = `<div class="msg"><img src="support.png" alt=""><b>${t("startH")}</b>${t("startP")}</div>`; };
+const vBoth  = () => { lock(); out.innerHTML = `<div class="msg"><b>${t("bothH")}</b>${t("bothP")}</div>`; };
+const vNone  = () => { lock(); out.innerHTML = `<div class="msg"><img src="support.png" alt=""><b>${t("noneH")}</b>${t("noneP")}</div>`; };
+const vError = kind => () => { lock(); const k = {access:"eAccess", shape:"eShape", network:"eNet"}[kind] || "eOther";
+  out.innerHTML = `<div class="msg err"><b>${t(k+"H")}</b>${t(k+"P")}</div>`; };
+
+function applyLang(){
+  document.documentElement.lang = LANG;
+  document.title = t("docTitle");
+  $("ttl").innerHTML = t("title");
+  $("ver").textContent = (LANG === "si" ? t("version") + " " : "") + "v" + CONFIG.VERSION;
+  wmsIn.placeholder = t("phWms"); wmsIn.setAttribute("aria-label", t("lblWms"));
+  mobIn.placeholder = t("phMob"); mobIn.setAttribute("aria-label", t("lblMob"));
+  btn.textContent = btn.disabled ? t("loading") : t("search");
+  shr.textContent = t("share");
+  document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === LANG)));
+  if (VIEW) VIEW();
+}
+function setLang(l){
+  LANG = l; try { localStorage.setItem("ncc_lang", l); } catch(e){}
+  applyLang(); syncHash();
+}
+document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+/* ---------- share / hash ---------- */
+function toast(m){ const e = $("toast"); e.textContent = m; e.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => e.hidden = true, 2200); }
+const hashFor = () => { const p = {wms:LAST.wms, mobile:LAST.mob}; if (LANG === "si") p.lang = "si"; return "#" + new URLSearchParams(p); };
+function syncHash(){ if (LAST) history.replaceState(null, "", location.href.split("#")[0] + hashFor()); }
+shr.addEventListener("click", async () => {
+  if (!LAST) return;
+  const url = location.href.split("#")[0] + hashFor();
+  try { if (navigator.share){ await navigator.share({title:t("docTitle"), url}); return; } }
+  catch(e){ if (e && e.name === "AbortError") return; }
+  try { await navigator.clipboard.writeText(url); toast(t("copied")); }
+  catch(e){ window.prompt(t("copyPrompt"), url); }
+});
+function fromHash(){
+  const p = new URLSearchParams(location.hash.slice(1)), w = p.get("wms"), b = p.get("mobile"), l = p.get("lang");
+  if ((l === "si" || l === "en") && l !== LANG){ LANG = l; try { localStorage.setItem("ncc_lang", l); } catch(e){} applyLang(); }
+  if (w && b){ wmsIn.value = w; mobIn.value = b; search(w, b); return true; }
+  return false;
+}
+async function search(wmsV, mobV, force){
+  if (!wmsKey(wmsV) || !normalizeMobile(mobV)){ show(vBoth); return; }
+  btn.disabled = true; btn.textContent = t("loading");
+  try {
+    await load(force);
+    const r = find(wmsV, mobV);
+    if (r){ LAST = {wms:clean(wmsV), mob:clean(mobV)}; show(() => render(r)); syncHash(); window.scrollTo({top:0}); }
+    else { LAST = null; show(vNone); }
+  } catch(e){ LAST = null; show(vError(e.message)); }
+  finally { btn.disabled = false; btn.textContent = t("search"); }
+}
+$("form").addEventListener("submit", e => { e.preventDefault(); search(wmsIn.value, mobIn.value); document.activeElement.blur(); });
+window.addEventListener("hashchange", fromHash);
+show(vStart); applyLang();
+if (!fromHash() && matchMedia("(hover:hover)").matches) wmsIn.focus();
+</script>
+</body>
+</html>
